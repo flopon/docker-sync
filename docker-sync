@@ -168,6 +168,7 @@ def get_dest_images(ssh):
 def get_images(ssh):
 	output, result = execute(["docker", "images", "--no-trunc"], ssh=ssh)
 	if result!=0: return
+	output = [line for line in output if not "<none>" in line]
 	output = [line.strip().split() for line in output if line.strip()!=""][1:]
 	return [("%s:%s"%(image[0], image[1]), image[2]) for image in output]
 
